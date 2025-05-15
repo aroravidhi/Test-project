@@ -1,81 +1,86 @@
-project-root/
-├── pom.xml
-├── .env
-├── .gitignore
-├── testng.xml
-├── src/
-│   ├── main/
-│   │   └── java/
-│   │       ├── config/
-│   │       │   └── DriverFactory.java
-│   │       │   └── CapabilitiesManager.java
-│   │       ├── pages/
-│   │       │   ├── HomePage.java
-│   │       │   ├── BrowserPage.java
-│   │       │   └── SpeedTestPage.java
-│   │       └── utils/
-│   │           └── TestUtils.java
-│   └── test/
-│       └── java/
-│           ├── tests/
-│           │   └── SpeedTests.java
-│           └── retry/
-│               └── RetryAnalyzer.java
-├── logs/
-├── reports/
+package tests;
 
-// pom.xml 
-<project>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.lambdatest</groupId>
-  <artifactId>internet-speed-test</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <dependencies>
-    <dependency>
-      <groupId>io.appium</groupId>
-      <artifactId>java-client</artifactId>
-      <version>8.5.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-      <version>7.8.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.github.cdimascio</groupId>
-      <artifactId>dotenv-java</artifactId>
-      <version>3.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.aventstack</groupId>
-      <artifactId>extentreports</artifactId>
-      <version>5.0.9</version>
-    </dependency>
-  </dependencies>
-</project>
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.annotations.*;
 
-// .gitignore
-.env
-logs/
-reports/
+import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
-// .env 
-LT_USERNAME=lt_test
-LT_ACCESS_KEY=LT_MJlsT9lwKlSm4goMrrEWPfeEpGMsBKpradF1mto704q1Hlf
-LT_EMAIL=lt_test@ltqa.lambdatestautomation.com
-LT_PASSWORD=3!%B3x!2He&MtzG%RqW!sU
+public class DownloadSpeedTest {
 
-// testng.xml
-<suite name="InternetSpeedTests" parallel="tests" thread-count="2">
-    <test name="ParallelTest1">
-        <classes>
-            <class name="tests.SpeedTests"/>
-        </classes>
-    </test>
-    <test name="ParallelTest2">
-        <classes>
-            <class name="tests.SpeedTests"/>
-        </classes>
-    </test>
-</suite>
+    public AppiumDriver<MobileElement> driver;
+
+    @BeforeMethod
+    public void setUp() throws Exception {
+        DesiredCapabilities caps = new DesiredCapabilities();
+
+        caps.setCapability("platformName", "Android");
+        caps.setCapability("deviceName", "Galaxy.*"); // Any available Galaxy device
+        caps.setCapability("platformVersion", ".*"); // Any version
+        caps.setCapability("isRealMobile", true);
+        caps.setCapability("build", "Speed Test Build");
+        caps.setCapability("name", "Download Speed Test");
+
+        // Replace with your actual uploaded app ID or use .apk directly
+        caps.setCapability("app", "lt://APP_ID"); 
+
+        // Enable console and network logs
+        caps.setCapability("console", true);
+        caps.setCapability("network", true);
+
+        String username = "lt_test";
+        String accessKey = "LT_MJlsT9lwKlSm4goMrrEWPfeEpGMsBKpradF1mto704q1Hlf";
+
+        driver = new AndroidDriver<>(
+                new URL("https://" + username + ":" + accessKey + "@mobile-hub.lambdatest.com/wd/hub"),
+                caps
+        );
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void testDownloadSpeed() throws InterruptedException {
+        // Step 1: Click Browser icon
+        driver.findElement(By.xpath("//android.widget.FrameLayout[@content-desc='Browser']")).click();
+
+        // Step 2: Click Enter web-name textbox
+        driver.findElement(By.id("com.lambdatest.proverbial:id/urlInput")).click();
+
+        // Step 3: Type testmy.net
+        driver.findElement(By.id("com.lambdatest.proverbial:id/urlInput")).sendKeys("https://testmy.net/");
+
+        // Step 4: Click FIND button
+        driver.findElement(By.id("com.lambdatest.proverbial:id/find")).click();
+
+        // Wait for site to load
+        Thread.sleep(10000);
+
+        // Step 5: Collapse keyboard if open
+        driver.hideKeyboard();
+
+        // Step 6: Click TEST MY INTERNET
+        driver.findElement(By.xpath("//android.view.View[contains(@content-desc,'Test My Internet')]")).click();
+
+        Thread.sleep(5000);
+
+        // Step 7: Click DOWNLOAD
+        driver.findElement(By.xpath("//android.view.View[contains(@content-desc,'Download')]")).click();
+
+        // Step 8: Wait and capture result
+        Thread.sleep(20000); // wait for speed test to complete
+
+        MobileElement result = driver.findElement(By.xpath("//android.view.View[contains(@content-desc,'Mbps')]"));
+        System.out.println("Download Speed: " + result.getAttribute("content-desc"));
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}

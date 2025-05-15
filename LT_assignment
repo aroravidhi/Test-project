@@ -25,7 +25,6 @@ public class DownloadSpeedTest {
         caps.setCapability("build", "Speed Test Build");
         caps.setCapability("name", "Download Speed Test");
 
-        // Replace with your actual uploaded app ID or use .apk directly
         caps.setCapability("app", "lt://APP_ID"); 
 
         // Enable console and network logs

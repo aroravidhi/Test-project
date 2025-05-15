@@ -27,7 +27,7 @@ Automate the testing of an Android app using **LambdaTest App Automation** that 
 
 ### 🔹 Framework Choice
 - Built using **Java + TestNG + Appium**, inspired by modular, reusable frameworks used in real-world projects.
-- TestNG was chosen for its native support for parallelism, retry mechanism, and reporting flexibility.
+- TestNG was chosen for its support for parallelism, retry mechanism, and reporting flexibility.
 
 ### 🔹 Layered Architecture
 

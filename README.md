@@ -1,42 +1,53 @@
-# Internet Speed Test Automation Framework
+# Internet Speed Test – Mobile Automation Framework (LambdaTest)
 
-## 🚀 Objective
-Automate the process of running internet speed tests (Download, Upload, Combined, Latency) on a mobile app using LambdaTest real device cloud.
+## 📌 Problem Statement
 
-## 🧠 Thought Process
-- Build a reusable test framework
-- Ensure scalability using Page Object Model and TestNG
-- Enable parallelism and retries to maximize efficiency and reliability
-- Encrypt secrets and follow best practices for clean code and logs
+Automate the testing of an Android app using **LambdaTest App Automation** that opens a browser within the app, navigates to [testmy.net](https://testmy.net), and runs internet speed tests (DOWNLOAD, UPLOAD, COMBINED, LATENCY).
 
-## 🧰 Tech Stack
-- Java + TestNG + Maven
-- Appium for mobile automation
-- LambdaTest for cloud execution
-- dotenv for secret management
-- ExtentReports for test reporting
+---
 
-## 🔍 Test Cases
-| Test Case | Steps |
-|----------|-------|
-| Download Speed | Navigate to testmy.net → TEST MY INTERNET → DOWNLOAD → Read speed |
-| Upload Speed   | Navigate to testmy.net → TEST MY INTERNET → UPLOAD → Read speed |
-| Combined Speed | Navigate to testmy.net → TEST MY INTERNET → COMBINED → Read speed |
-| Latency        | Navigate to testmy.net → TEST MY INTERNET → LATENCY → Read speed |
+## ✅ Test Steps
 
-## 📦 How to Run
-```sh
-mvn clean test -DsuiteXmlFile=testng.xml
-```
+1. In the bottom navigation bar, click the **Browser** icon.
+2. Click the **"Enter web-name"** textbox.
+3. Type `https://testmy.net/`.
+4. Click the **FIND** button.
+5. Collapse the keyboard.
+6. Click **TEST MY INTERNET**.
+7. Click each of the buttons in order:
+   - DOWNLOAD
+   - UPLOAD
+   - COMBINED
+   - LATENCY
+8. Wait for each result to display (e.g., `101.7 Mbps`), extract it, and print to console.
 
-## 🔐 Secret Management
-Use `.env` file and `dotenv-java` to avoid hardcoded credentials.
+---
 
-## 📍 LambdaTest Setup
-- Upload app using CURL to get `lt://` URL
-- Use that in `CapabilitiesManager.java`
-- Check execution status at: https://appautomation.lambdatest.com/build
+## 🧠 Thought Process & Approach
 
-## 📄 Reports & Logs
-- Logs saved under `logs/`
-- Reports generated in `reports/`
+### 🔹 Framework Choice
+- Built using **Java + TestNG + Appium**, inspired by modular, reusable frameworks used in real-world projects.
+- TestNG was chosen for its native support for parallelism, retry mechanism, and reporting flexibility.
+
+### 🔹 Layered Architecture
+
+```plaintext
+src/
+├── config/         # Driver, capabilities, env loading
+├── pages/          # Page Object Models (encapsulated locators and actions)
+├── tests/          # TestNG test classes for each scenario
+├── retry/          # RetryAnalyzer for rerunning failed tests
+├── utils/          # Helper functions, logging, wait utilities
+
+
+Parallel Execution
+Configured TestNG to run tests in 2 threads, ensuring speed and concurrency with real devices on LambdaTest.
+
+🔹 Retry Mechanism
+Implemented RetryAnalyzer class for failed test retries to handle network flakiness.
+
+🔹 Reporting
+Integrated ExtentReports to generate visually rich test execution reports.
+
+🔹 Secret Management
+All sensitive values (username, access key, credentials) are stored in a .env file and accessed using dotenv-java.

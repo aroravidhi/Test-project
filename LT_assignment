@@ -1,0 +1,81 @@
+project-root/
+├── pom.xml
+├── .env
+├── .gitignore
+├── testng.xml
+├── src/
+│   ├── main/
+│   │   └── java/
+│   │       ├── config/
+│   │       │   └── DriverFactory.java
+│   │       │   └── CapabilitiesManager.java
+│   │       ├── pages/
+│   │       │   ├── HomePage.java
+│   │       │   ├── BrowserPage.java
+│   │       │   └── SpeedTestPage.java
+│   │       └── utils/
+│   │           └── TestUtils.java
+│   └── test/
+│       └── java/
+│           ├── tests/
+│           │   └── SpeedTests.java
+│           └── retry/
+│               └── RetryAnalyzer.java
+├── logs/
+├── reports/
+
+// pom.xml (Partial)
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.lambdatest</groupId>
+  <artifactId>internet-speed-test</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <dependencies>
+    <dependency>
+      <groupId>io.appium</groupId>
+      <artifactId>java-client</artifactId>
+      <version>8.5.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>7.8.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.github.cdimascio</groupId>
+      <artifactId>dotenv-java</artifactId>
+      <version>3.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.aventstack</groupId>
+      <artifactId>extentreports</artifactId>
+      <version>5.0.9</version>
+    </dependency>
+  </dependencies>
+</project>
+
+// .gitignore
+.env
+logs/
+reports/
+
+// .env (not to be committed)
+LT_USERNAME=lt_test
+LT_ACCESS_KEY=LT_MJlsT9lwKlSm4goMrrEWPfeEpGMsBKpradF1mto704q1Hlf
+LT_EMAIL=lt_test@ltqa.lambdatestautomation.com
+LT_PASSWORD=3!%B3x!2He&MtzG%RqW!sU
+
+// testng.xml
+<suite name="InternetSpeedTests" parallel="tests" thread-count="2">
+    <test name="ParallelTest1">
+        <classes>
+            <class name="tests.SpeedTests"/>
+        </classes>
+    </test>
+    <test name="ParallelTest2">
+        <classes>
+            <class name="tests.SpeedTests"/>
+        </classes>
+    </test>
+</suite>

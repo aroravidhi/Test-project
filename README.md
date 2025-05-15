@@ -50,4 +50,4 @@ Implemented RetryAnalyzer class for failed test retries to handle network flakin
 Integrated ExtentReports to generate visually rich test execution reports.
 
 🔹 Secret Management
-All sensitive values (username, access key, credentials) are stored in a .env file and accessed using dotenv-java.
+All sensitive values (username, access key, credentials) are stored in config.properties

@@ -24,7 +24,7 @@ project-root/
 ├── logs/
 ├── reports/
 
-// pom.xml (Partial)
+// pom.xml 
 <project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.lambdatest</groupId>
@@ -60,7 +60,7 @@ project-root/
 logs/
 reports/
 
-// .env (not to be committed)
+// .env 
 LT_USERNAME=lt_test
 LT_ACCESS_KEY=LT_MJlsT9lwKlSm4goMrrEWPfeEpGMsBKpradF1mto704q1Hlf
 LT_EMAIL=lt_test@ltqa.lambdatestautomation.com
